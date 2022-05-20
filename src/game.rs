@@ -18,13 +18,26 @@ fn init_game(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     // 1 unit = 1 meter
-    let mesh = meshes.add(Mesh::from(shape::Plane { size: 100. }));
+    let ground_mesh = meshes.add(Mesh::from(shape::Plane { size: 100. }));
     let grass_material = materials.add(Color::rgb(0.0, 0.9, 0.0).into());
 
+    let tavern_mesh = meshes.add(Mesh::from(shape::Cube { size: 8. }));
+    let tavern_material = materials.add(Color::BEIGE.into());
+
     commands.spawn_bundle(PbrBundle {
-        mesh: mesh,
+        mesh: ground_mesh,
         // Change material according to position
         material: grass_material,
         ..Default::default()
     });
+
+    commands.spawn_bundle(PbrBundle {
+        mesh: tavern_mesh,
+        // Change material according to position
+        material: tavern_material,
+        transform: Transform::from_xyz(0., 4., 0.),
+        ..Default::default()
+    });
+
+    commands.spawn_bundle(DirectionalLightBundle { ..default() });
 }
