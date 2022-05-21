@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::GameState;
+use crate::{GameState, ImageAssets};
 
 pub struct MainMenuPlugin;
 
@@ -15,7 +15,7 @@ impl Plugin for MainMenuPlugin {
     }
 }
 
-fn create_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn create_main_menu(mut commands: Commands, images: Res<ImageAssets>) {
     // Root node
     commands
         .spawn_bundle(NodeBundle {
@@ -48,7 +48,7 @@ fn create_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
                             size: Size::new(Val::Px(500.0), Val::Auto),
                             ..default()
                         },
-                        image: asset_server.load("ui/logo.png").into(),
+                        image: images.logo.clone().into(),
                         ..default()
                     });
                 });

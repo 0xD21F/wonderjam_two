@@ -4,6 +4,8 @@ use bevy::{
 };
 use bevy_inspector_egui::WorldInspectorPlugin;
 
+use crate::game::{GameManager, Resources, Tavern};
+
 pub struct DebugPlugin;
 
 impl Plugin for DebugPlugin {
@@ -11,7 +13,10 @@ impl Plugin for DebugPlugin {
         if cfg!(debug_assertions) {
             app.add_plugin(WorldInspectorPlugin::new())
                 .add_plugin(LogDiagnosticsPlugin::default())
-                .add_plugin(FrameTimeDiagnosticsPlugin::default());
+                .add_plugin(FrameTimeDiagnosticsPlugin::default())
+                .register_type::<GameManager>()
+                .register_type::<Tavern>()
+                .register_type::<Resources>();
         }
     }
 }
