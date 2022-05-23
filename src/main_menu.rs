@@ -42,7 +42,6 @@ fn create_main_menu(mut commands: Commands, images: Res<ImageAssets>) {
                     ..default()
                 })
                 .with_children(|parent| {
-                    // bevy logo (image)
                     parent.spawn_bundle(ImageBundle {
                         style: Style {
                             size: Size::new(Val::Px(500.0), Val::Auto),
