@@ -13,6 +13,7 @@ use smooth_bevy_cameras::{
 mod debug;
 mod game;
 mod main_menu;
+mod mesh_instancing;
 mod tilemap;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Copy)]
