@@ -9,8 +9,6 @@ const BEGIN_GAME_GOLD: i32 = 0;
 const BEGIN_GAME_WOOD: i32 = 0;
 const BEGIN_GAME_STONE: i32 = 0;
 
-pub const TILE_SIZE: f32 = 1.0;
-
 #[derive(Component, Default, Reflect)]
 #[reflect(Component)]
 pub struct Tavern {

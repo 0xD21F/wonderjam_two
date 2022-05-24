@@ -14,87 +14,14 @@ use bevy::{
         },
         render_resource::*,
         renderer::RenderDevice,
-        view::{ComputedVisibility, ExtractedView, Msaa, NoFrustumCulling, Visibility},
+        view::{ExtractedView, Msaa},
         RenderApp, RenderStage,
     },
 };
 use bytemuck::{Pod, Zeroable};
-use rand::Rng;
-
-use crate::{game::TILE_SIZE, GameState};
-
-pub struct TileMapPlugin;
-
-pub enum TileType {
-    Grass,
-    Road,
-    Water,
-}
-
-pub struct Tile {
-    x: i32,
-    z: i32,
-    color: Color,
-    tile_type: TileType,
-}
-
-impl Plugin for TileMapPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_plugin(CustomMaterialPlugin)
-            .add_system_set(SystemSet::on_enter(GameState::Game).with_system(create_map));
-    }
-}
-
-fn create_map(mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>) {
-    let mut rand = rand::thread_rng();
-    let mut tiles = Vec::new();
-    let mut instance_data = Vec::new();
-
-    for x in 0..500 {
-        for z in 0..500 {
-            let color = Color::rgb(0.1, rand.gen_range(0.2..0.8), 0.1);
-            let tile = Tile {
-                x: x,
-                z: z,
-                color: color,
-                tile_type: TileType::Grass,
-            };
-            tiles.push(tile);
-
-            let data = InstanceData {
-                position: Vec3::new(x as f32 * TILE_SIZE, 0., z as f32 * TILE_SIZE),
-                scale: TILE_SIZE,
-                color: color.as_rgba_f32(),
-            };
-            instance_data.push(data);
-        }
-    }
-    commands.spawn().insert_bundle((
-        meshes.add(Mesh::from(shape::Plane { size: TILE_SIZE })),
-        Transform::from_xyz(0.0, 0.0, 0.0),
-        GlobalTransform::default(),
-        InstanceMaterialData(instance_data),
-        Visibility::default(),
-        ComputedVisibility::default(),
-        // NOTE: Frustum culling is done based on the Aabb of the Mesh and the GlobalTransform.
-        // As the cube is at the origin, if its Aabb moves outside the view frustum, all the
-        // instanced cubes will be culled.
-        // The InstanceMaterialData contains the 'GlobalTransform' information for this custom
-        // instancing, and that is not taken into account with the built-in frustum culling.
-        // We must disable the built-in frustum culling by adding the `NoFrustumCulling` marker
-        // component to avoid incorrect culling.
-        NoFrustumCulling,
-    ));
-
-    // camera
-    commands.spawn_bundle(PerspectiveCameraBundle {
-        transform: Transform::from_xyz(0.0, 0.0, 15.0).looking_at(Vec3::ZERO, Vec3::Y),
-        ..default()
-    });
-}
 
 #[derive(Component, Deref)]
-struct InstanceMaterialData(Vec<InstanceData>);
+pub struct InstanceMaterialData(pub Vec<InstanceData>);
 impl ExtractComponent for InstanceMaterialData {
     type Query = &'static InstanceMaterialData;
     type Filter = ();
@@ -120,10 +47,10 @@ impl Plugin for CustomMaterialPlugin {
 
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
-struct InstanceData {
-    position: Vec3,
-    scale: f32,
-    color: [f32; 4],
+pub struct InstanceData {
+    pub position: Vec3,
+    pub scale: f32,
+    pub color: [f32; 4],
 }
 
 #[allow(clippy::too_many_arguments)]

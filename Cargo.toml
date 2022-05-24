@@ -12,3 +12,10 @@ smooth-bevy-cameras = "0.4.0"
 rand = "0.8.5"
 bytemuck = "1.7"
 bevy_asset_loader = "0.10"
+colored = "2"
+tilemap_plugin = { path = "tilemap_plugin" }
+
+[workspace]
+members = [
+    "tilemap_plugin"
+]

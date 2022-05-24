@@ -3,7 +3,7 @@ use bevy_asset_loader::{AssetCollection, AssetLoader};
 use debug::DebugPlugin;
 use game::GamePlugin;
 use main_menu::MainMenuPlugin;
-use tilemap::TileMapPlugin;
+use tilemap_plugin::{resources::TileMapOptions, *};
 
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
@@ -13,7 +13,7 @@ use smooth_bevy_cameras::{
 mod debug;
 mod game;
 mod main_menu;
-mod tilemap;
+mod mesh_instancing;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Copy)]
 pub enum GameState {
@@ -39,17 +39,11 @@ struct ModelAssets {
     donkey: Handle<Scene>,
 }
 
-#[derive(AssetCollection)]
-struct ShaderAssets {
-    #[asset(path = "shader/instancing.wgsl")]
-    instancing: Handle<Shader>,
-}
-
 //Not sure about Handle<SoundAssets>
 #[derive(AssetCollection)]
 struct SoundAssets {
     #[asset(path = "sounds/music/main menu.mp3")]
-    instancing: Handle<SoundAssets>,
+    instancing: Handle<Audio>,
 }
 
 fn main() {
@@ -59,7 +53,6 @@ fn main() {
         .continue_to_state(GameState::MainMenu)
         .with_collection::<ImageAssets>()
         .with_collection::<ModelAssets>()
-        .with_collection::<ShaderAssets>()
         .build(&mut app);
 
     app.add_state(GameState::AssetLoading)
@@ -69,12 +62,16 @@ fn main() {
             height: 1080.0,
             ..Default::default()
         })
+        .insert_resource(TileMapOptions {
+            map_size: (100, 100),
+            ..default()
+        })
         .add_plugins(DefaultPlugins)
         .add_plugin(DebugPlugin)
         .add_plugin(LookTransformPlugin)
         .add_plugin(FpsCameraPlugin::default())
         .add_plugin(MainMenuPlugin)
-        .add_plugin(TileMapPlugin)
+        .add_plugin(TilemapPlugin)
         .add_plugin(GamePlugin)
         .add_startup_system(init)
         .run();

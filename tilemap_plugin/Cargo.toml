@@ -1,0 +1,25 @@
+[package]
+name = "tilemap_plugin"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# Engine
+bevy = "0.7"
+
+# Serialization
+serde = "1.0"
+
+# Random
+rand = "0.8.5"
+
+# Console Debug
+colored = "2"
+
+# Hierarchy inspector debug
+bevy-inspector-egui = "0.10"
+
+# Line drawing
+bresenham = "0.1.1"
