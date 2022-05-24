@@ -33,6 +33,17 @@ struct ImageAssets {
 struct ModelAssets {
     #[asset(path = "model/tavern.glb#Scene0")]
     tavern: Handle<Scene>,
+    #[asset(path = "model/stable1.glb#Scene0")]
+    stable: Handle<Scene>,
+    #[asset(path = "model/donkey.glb#Scene0")]
+    donkey: Handle<Scene>,
+}
+
+//Not sure about Handle<SoundAssets>
+#[derive(AssetCollection)]
+struct SoundAssets {
+    #[asset(path = "sounds/music/main menu.mp3")]
+    instancing: Handle<Audio>,
 }
 
 fn main() {
