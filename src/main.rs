@@ -39,11 +39,10 @@ struct ModelAssets {
     donkey: Handle<Scene>,
 }
 
-//Not sure about Handle<SoundAssets>
 #[derive(AssetCollection)]
 struct SoundAssets {
-    #[asset(path = "sounds/music/main menu.mp3")]
-    instancing: Handle<Audio>,
+    #[asset(path = "sounds/music/main_menu.mp3")]
+    main_menu: Handle<AudioSource>,
 }
 
 fn main() {
@@ -77,7 +76,7 @@ fn main() {
         .run();
 }
 
-fn init(mut commands: Commands) {
+fn init(mut commands: Commands, asset_server: Res<AssetServer>, audio: Res<Audio>) {
     commands.spawn_bundle(UiCameraBundle::default());
     commands.spawn_bundle(FpsCameraBundle::new(
         FpsCameraController::default(),
