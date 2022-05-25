@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use rand::prelude::*;
 
-use crate::{GameState, ModelAssets};
+use crate::{GameState, ModelAssets, SoundAssets};
 
 pub struct GamePlugin;
 

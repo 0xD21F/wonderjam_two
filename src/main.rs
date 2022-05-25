@@ -40,9 +40,11 @@ struct ModelAssets {
 }
 
 #[derive(AssetCollection)]
-struct SoundAssets {
-    #[asset(path = "sounds/music/main_menu.mp3")]
+pub struct SoundAssets {
+    #[asset(path = "sounds/music/theme.ogg")]
     main_menu: Handle<AudioSource>,
+    #[asset(path = "sounds/sfx/click.ogg")]
+    menu_click: Handle<AudioSource>,
 }
 
 fn main() {
@@ -52,6 +54,7 @@ fn main() {
         .continue_to_state(GameState::MainMenu)
         .with_collection::<ImageAssets>()
         .with_collection::<ModelAssets>()
+        .with_collection::<SoundAssets>()
         .build(&mut app);
 
     app.add_state(GameState::AssetLoading)
