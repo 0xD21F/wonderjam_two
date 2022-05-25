@@ -39,9 +39,11 @@ struct ModelAssets {
 }
 
 #[derive(AssetCollection)]
-struct SoundAssets {
+pub struct SoundAssets {
     #[asset(path = "sounds/music/theme.ogg")]
     main_menu: Handle<AudioSource>,
+    #[asset(path = "sounds/sfx/click.ogg")]
+    menu_click: Handle<AudioSource>,
 }
 
 fn main() {
