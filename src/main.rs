@@ -3,7 +3,7 @@ use bevy_asset_loader::{AssetCollection, AssetLoader};
 use debug::DebugPlugin;
 use game::GamePlugin;
 use main_menu::MainMenuPlugin;
-use tilemap_plugin::{resources::TileMapOptions, *};
+use tilemap_plugin::{mesh_instancing::CustomMaterialPlugin, resources::TileMapOptions, *};
 
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
@@ -13,7 +13,6 @@ use smooth_bevy_cameras::{
 mod debug;
 mod game;
 mod main_menu;
-mod mesh_instancing;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Copy)]
 pub enum GameState {
@@ -69,6 +68,7 @@ fn main() {
             ..default()
         })
         .add_plugins(DefaultPlugins)
+        .add_plugin(CustomMaterialPlugin)
         .add_plugin(DebugPlugin)
         .add_plugin(LookTransformPlugin)
         .add_plugin(FpsCameraPlugin::default())

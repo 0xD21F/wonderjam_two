@@ -3123,6 +3123,7 @@ dependencies = [
  "bevy",
  "bevy-inspector-egui",
  "bresenham",
+ "bytemuck",
  "colored",
  "rand",
  "serde",
