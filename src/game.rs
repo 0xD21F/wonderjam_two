@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use rand::prelude::*;
+use tilemap_plugin::TilemapPlugin;
 
 use crate::{GameState, ModelAssets};
 
@@ -32,6 +33,9 @@ pub struct Resources {
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.add_system_set(SystemSet::on_enter(GameState::Game).with_system(init_game))
+            .add_system_set(
+                SystemSet::on_enter(GameState::Game).with_system(TilemapPlugin::create_map),
+            )
             .add_system_set(SystemSet::on_update(GameState::Game).with_system(update_taverns));
     }
 }

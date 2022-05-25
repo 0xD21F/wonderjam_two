@@ -23,3 +23,5 @@ bevy-inspector-egui = "0.10"
 
 # Line drawing
 bresenham = "0.1.1"
+
+bytemuck = "1.7"

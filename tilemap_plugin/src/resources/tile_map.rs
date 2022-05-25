@@ -80,6 +80,8 @@ impl TileMap {
         self[end_y as usize][end_x as usize] = Tile {
             tile_type: TileType::Road,
         };
+
+        // Run twice for double thickness road?
         for (y, x) in Bresenham::new(
             (start_y as isize, start_x as isize),
             (end_y as isize, end_x as isize),
@@ -87,6 +89,14 @@ impl TileMap {
             self[y as usize][x as usize] = Tile {
                 tile_type: TileType::Road,
             };
+
+            // ????????????? this sucks ?????????
+            let x_1 = x + 1;
+            if (x_1 >= 0 && x_1 <= self.width() as isize) {
+                self[y as usize][x_1 as usize] = Tile {
+                    tile_type: TileType::Road,
+                };
+            }
         }
     }
 }

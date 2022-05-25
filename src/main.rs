@@ -3,7 +3,7 @@ use bevy_asset_loader::{AssetCollection, AssetLoader};
 use debug::DebugPlugin;
 use game::GamePlugin;
 use main_menu::MainMenuPlugin;
-use tilemap_plugin::{resources::TileMapOptions, *};
+use tilemap_plugin::{mesh_instancing::CustomMaterialPlugin, resources::TileMapOptions, *};
 
 use smooth_bevy_cameras::{
     controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
@@ -13,7 +13,6 @@ use smooth_bevy_cameras::{
 mod debug;
 mod game;
 mod main_menu;
-mod mesh_instancing;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Copy)]
 pub enum GameState {
@@ -41,7 +40,7 @@ struct ModelAssets {
 
 #[derive(AssetCollection)]
 struct SoundAssets {
-    #[asset(path = "sounds/music/main_menu.mp3")]
+    #[asset(path = "sounds/music/theme.ogg")]
     main_menu: Handle<AudioSource>,
 }
 
@@ -52,6 +51,7 @@ fn main() {
         .continue_to_state(GameState::MainMenu)
         .with_collection::<ImageAssets>()
         .with_collection::<ModelAssets>()
+        .with_collection::<SoundAssets>()
         .build(&mut app);
 
     app.add_state(GameState::AssetLoading)
@@ -66,6 +66,7 @@ fn main() {
             ..default()
         })
         .add_plugins(DefaultPlugins)
+        .add_plugin(CustomMaterialPlugin)
         .add_plugin(DebugPlugin)
         .add_plugin(LookTransformPlugin)
         .add_plugin(FpsCameraPlugin::default())

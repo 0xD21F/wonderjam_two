@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{GameState, ImageAssets};
+use crate::{GameState, ImageAssets, SoundAssets};
 
 pub struct MainMenuPlugin;
 
@@ -11,8 +11,14 @@ impl Plugin for MainMenuPlugin {
     fn build(&self, app: &mut App) {
         app.add_system_set(SystemSet::on_enter(GameState::MainMenu).with_system(create_main_menu))
             .add_system_set(SystemSet::on_exit(GameState::MainMenu).with_system(destroy_main_menu))
+            .add_system_set(SystemSet::on_enter(GameState::MainMenu).with_system(play_music))
             .add_system_set(SystemSet::on_update(GameState::MainMenu).with_system(update));
     }
+}
+
+fn play_music(audio_assets: Res<SoundAssets>, audio: Res<Audio>) {
+    let music = audio_assets.main_menu.clone();
+    audio.play(music);
 }
 
 fn create_main_menu(mut commands: Commands, images: Res<ImageAssets>) {
